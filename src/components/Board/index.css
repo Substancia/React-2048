@@ -1,0 +1,12 @@
+.Board {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: brown;
+}
+
+.Row {
+  /* margin: 10px 0; */
+  display: flex;
+  flex-direction: row;
+}
