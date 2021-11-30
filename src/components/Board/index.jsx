@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Cell } from "..";
-import { initBoard, randomEntry, swipeHorizontalMerge, swipeVerticalMerge } from "../../helpers";
+import { initBoard, randomEntry, swipeHorizontalMerge, swipeVerticalMerge, swipeMerge } from "../../helpers";
 import './index.css';
 
 const Board = ({ pressedKey, triggerRestart, setScore }) => {
@@ -21,7 +21,7 @@ const Board = ({ pressedKey, triggerRestart, setScore }) => {
       case '1':
       case 'ArrowLeft':
         setGameState(prevState => {
-          let [newState, addScore] = swipeHorizontalMerge(prevState, -1);
+          let [newState, addScore] = swipeMerge(prevState, -1, 0);
           let newUpdatedState = updateGameState(newState);
           setScore(prevScore => prevScore + addScore);
           return newUpdatedState !== null ? newUpdatedState : prevState;
@@ -30,7 +30,7 @@ const Board = ({ pressedKey, triggerRestart, setScore }) => {
       case '2':
       case 'ArrowRight':
         setGameState(prevState => {
-          let [newState, addScore] = swipeHorizontalMerge(prevState, 1);
+          let [newState, addScore] = swipeMerge(prevState, 1, 0);
           let newUpdatedState = updateGameState(newState);
           setScore(prevScore => prevScore + addScore);
           return newUpdatedState !== null ? newUpdatedState : prevState;
@@ -39,7 +39,7 @@ const Board = ({ pressedKey, triggerRestart, setScore }) => {
       case '3':
       case 'ArrowUp':
         setGameState(prevState => {
-          let [newState, addScore] = swipeVerticalMerge(prevState, -1);
+          let [newState, addScore] = swipeMerge(prevState, 0, -1);
           let newUpdatedState = updateGameState(newState);
           setScore(prevScore => prevScore + addScore);
           return newUpdatedState !== null ? newUpdatedState : prevState;
@@ -48,7 +48,7 @@ const Board = ({ pressedKey, triggerRestart, setScore }) => {
       case '4':
       case 'ArrowDown':
         setGameState(prevState => {
-          let [newState, addScore] = swipeVerticalMerge(prevState, 1);
+          let [newState, addScore] = swipeMerge(prevState, 0, 1);
           let newUpdatedState = updateGameState(newState);
           setScore(prevScore => prevScore + addScore);
           return newUpdatedState !== null ? newUpdatedState : prevState;

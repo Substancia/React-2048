@@ -91,4 +91,77 @@ const swipeVerticalMerge = (gameState, direction) => {
   return [gameState, addScore];
 }
 
-export { initBoard, randomEntry, swipeHorizontalMerge, swipeVerticalMerge }
+const swipeMerge = (gameState, xdir, ydir) => {
+  let xstart, xend, ystart, yend, xloopIncMult, yloopIncMult;
+  switch(xdir) {
+    case 1:
+      [xstart, xend] = [2, 0];
+      xloopIncMult = -1;
+      break;
+    case 0:
+      [xstart, xend] = [0, 3];
+      xloopIncMult = 1;
+      break;
+    case -1:
+      [xstart, xend] = [1, 3];
+      xloopIncMult = 1;
+      break;
+    default:
+  }
+  switch(ydir) {
+    case 1:
+      [ystart, yend] = [2, 0];
+      yloopIncMult = -1;
+      break;
+    case 0:
+      [ystart, yend] = [0, 3];
+      yloopIncMult = 1;
+      break;
+    case -1:
+      [ystart, yend] = [1, 3];
+      yloopIncMult = 1;
+      break;
+    default:
+  }
+  let stateChanged = false;
+  let addScore = 0;
+
+  for(let row = ystart; row * yloopIncMult <= yend; row += yloopIncMult) {
+    console.log('row', row);
+    if(ydir === 0) {
+      if(gameState[row].every(v => v === null)) continue;
+    } else if(xdir === 0) {
+      if(gameState.every(v => v[row] === null)) continue;
+    }
+    let updated = true;
+    while(updated) {
+      updated = false;
+      for(let cell = xstart; cell * xloopIncMult <= xend; cell += xloopIncMult) {
+        console.log('col', cell);
+        if(gameState[row][cell] === null) continue;
+        switch(gameState[row + ydir][cell + xdir]) {
+          case null:
+            gameState[row + ydir][cell + xdir] = gameState[row][cell];
+            gameState[row][cell] = null;
+            updated = true;
+            stateChanged = true;
+            break;
+          case gameState[row][cell]:
+            gameState[row + ydir][cell + xdir] = 2 * gameState[row][cell];
+            gameState[row][cell] = null
+            addScore += gameState[row + ydir][cell + xdir];
+            updated = true;
+            stateChanged = true;
+            break;
+          default:
+        }
+      }
+    }
+  }
+
+  if(!stateChanged) return [null, 0];
+
+  return [gameState, addScore];
+}
+
+export { initBoard, randomEntry, swipeHorizontalMerge, swipeVerticalMerge, swipeMerge }
