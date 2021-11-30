@@ -6,7 +6,7 @@ const useKeyPressDetectHook = () => {
   const keyDown = ({ key }) => setPressedKey(key);
 
   const keyUp = ({ key }) => {
-    if(key === pressedKey) setPressedKey(null);
+    setPressedKey(null);
   }
 
   useEffect(() => {

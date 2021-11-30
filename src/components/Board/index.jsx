@@ -1,19 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { Cell } from "..";
-import { initBoard, randomEntry, swipeHorizontalMerge } from "../../helpers";
-import { useKeyPressDetectHook } from '../../customHooks';
+import { initBoard, randomEntry, swipeHorizontalMerge, swipeVerticalMerge } from "../../helpers";
 import './index.css';
 
-const Board = () => {
+const Board = ({ pressedKey, triggerRestart }) => {
   const [gameState, setGameState] = useState(null);
-  const pressedKey = useKeyPressDetectHook();
 
-  useEffect(() => setGameState(randomEntry(randomEntry(initBoard()))), []);
+  useEffect(() => setGameState(randomEntry(randomEntry(initBoard()))), [triggerRestart]);
+
+  const updateGameState = newState => {
+    if(newState === null) {
+      return newState;
+    } else {
+      return randomEntry(newState);
+    }
+  }
 
   useEffect(() => {
     switch(pressedKey) {
       case '1':
-        setGameState(prevState => swipeHorizontalMerge(prevState, -1));
+      case 'ArrowLeft':
+        setGameState(prevState => {
+          let newState = swipeHorizontalMerge(prevState, -1);
+          let newUpdatedState = updateGameState(newState);
+          return newUpdatedState !== null ? newUpdatedState : prevState;
+        });
+        break;
+      case '2':
+      case 'ArrowRight':
+        setGameState(prevState => {
+          let newState = swipeHorizontalMerge(prevState, 1);
+          let newUpdatedState = updateGameState(newState);
+          return newUpdatedState !== null ? newUpdatedState : prevState;
+        });
+        break;
+      case '3':
+      case 'ArrowUp':
+        setGameState(prevState => {
+          let newState = swipeVerticalMerge(prevState, -1);
+          let newUpdatedState = updateGameState(newState);
+          return newUpdatedState !== null ? newUpdatedState : prevState;
+        });
+        break;
+      case '4':
+      case 'ArrowDown':
+        setGameState(prevState => {
+          let newState = swipeVerticalMerge(prevState, 1);
+          let newUpdatedState = updateGameState(newState);
+          return newUpdatedState !== null ? newUpdatedState : prevState;
+        });
         break;
       default:
     }

@@ -1,4 +1,12 @@
-# Getting Started with Create React App
+# 2048 on React
+
+Simple recreation of game 2048 in React.
+
+Run `npm i` for installing dependancies. Run `npm start` to run the app.
+
+This app is part of assignment by Ather.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
