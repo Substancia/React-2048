@@ -1,0 +1,12 @@
+.ScoreBoard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+  margin: 10px;
+  border: 1px solid grey;
+}
+
+.ScoreBoard > * {
+  margin: 0 20px;
+}

@@ -20,6 +20,7 @@ const randomEntry = gameState => {
 const swipeHorizontalMerge = (gameState, direction) => {
   let [start, end] = direction < 0 ? [1, 3] : [2, 0];
   let stateChanged = false;
+  let addScore = 0;
 
   for(let row = 0; row < 4; ++ row) {
     if(gameState[row].every(v => v === null)) continue;
@@ -38,6 +39,7 @@ const swipeHorizontalMerge = (gameState, direction) => {
           case gameState[row][cell]:
             gameState[row][cell + direction] = 2 * gameState[row][cell];
             gameState[row][cell] = null
+            addScore += gameState[row][cell + direction];
             updated = true;
             stateChanged = true;
             break;
@@ -47,15 +49,15 @@ const swipeHorizontalMerge = (gameState, direction) => {
     }
   }
 
-  if(!stateChanged) return null;
-  if(gameState.every(u => u.every(v => v !== null))) return [];
+  if(!stateChanged) return [null, 0];
 
-  return gameState;
+  return [gameState, addScore];
 }
 
 const swipeVerticalMerge = (gameState, direction) => {
   let [start, end] = direction < 0 ? [1, 3] : [2, 0];
   let stateChanged = false;
+  let addScore = 0;
 
   for(let col = 0; col < 4; ++ col) {
     if(gameState.every(v => v[col] === null)) continue;
@@ -74,6 +76,7 @@ const swipeVerticalMerge = (gameState, direction) => {
           case gameState[cell][col]:
             gameState[cell + direction][col] = 2 * gameState[cell][col];
             gameState[cell][col] = null
+            addScore += gameState[cell + direction][col];
             updated = true;
             stateChanged = true;
             break;
@@ -83,9 +86,9 @@ const swipeVerticalMerge = (gameState, direction) => {
     }
   }
 
-  if(!stateChanged) return null;
+  if(!stateChanged) return [null, 0];
 
-  return gameState;
+  return [gameState, addScore];
 }
 
 export { initBoard, randomEntry, swipeHorizontalMerge, swipeVerticalMerge }

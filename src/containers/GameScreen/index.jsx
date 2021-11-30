@@ -1,17 +1,27 @@
 import React from "react";
 import { useState } from "react/cjs/react.development";
-import { Board } from "../../components";
+import { Board, ScoreBoard } from "../../components";
 import { useKeyPressDetectHook } from "../../customHooks";
 import './index.css';
 
 const GameScreen = () => {
   const pressedKey = useKeyPressDetectHook();
   const [triggerRestart, setTriggerRestart] = useState(0);
+  const [score, setScore] = useState(0);
 
   return (
     <div className='GameScreen'>
+      <div>
+        <ScoreBoard score={score} />
+      </div>
+
       <div className='Board-ctrl'>
-        <Board pressedKey={pressedKey} triggerRestart={triggerRestart} />
+        <Board
+          pressedKey={pressedKey}
+          triggerRestart={triggerRestart}
+          setScore={setScore}
+        />
+
         <button onClick={() => setTriggerRestart(Math.random())}>Restart</button>
       </div>
 

@@ -3,7 +3,7 @@ import { Cell } from "..";
 import { initBoard, randomEntry, swipeHorizontalMerge, swipeVerticalMerge } from "../../helpers";
 import './index.css';
 
-const Board = ({ pressedKey, triggerRestart }) => {
+const Board = ({ pressedKey, triggerRestart, setScore }) => {
   const [gameState, setGameState] = useState(null);
 
   useEffect(() => setGameState(randomEntry(randomEntry(initBoard()))), [triggerRestart]);
@@ -21,38 +21,42 @@ const Board = ({ pressedKey, triggerRestart }) => {
       case '1':
       case 'ArrowLeft':
         setGameState(prevState => {
-          let newState = swipeHorizontalMerge(prevState, -1);
+          let [newState, addScore] = swipeHorizontalMerge(prevState, -1);
           let newUpdatedState = updateGameState(newState);
+          setScore(prevScore => prevScore + addScore);
           return newUpdatedState !== null ? newUpdatedState : prevState;
         });
         break;
       case '2':
       case 'ArrowRight':
         setGameState(prevState => {
-          let newState = swipeHorizontalMerge(prevState, 1);
+          let [newState, addScore] = swipeHorizontalMerge(prevState, 1);
           let newUpdatedState = updateGameState(newState);
+          setScore(prevScore => prevScore + addScore);
           return newUpdatedState !== null ? newUpdatedState : prevState;
         });
         break;
       case '3':
       case 'ArrowUp':
         setGameState(prevState => {
-          let newState = swipeVerticalMerge(prevState, -1);
+          let [newState, addScore] = swipeVerticalMerge(prevState, -1);
           let newUpdatedState = updateGameState(newState);
+          setScore(prevScore => prevScore + addScore);
           return newUpdatedState !== null ? newUpdatedState : prevState;
         });
         break;
       case '4':
       case 'ArrowDown':
         setGameState(prevState => {
-          let newState = swipeVerticalMerge(prevState, 1);
+          let [newState, addScore] = swipeVerticalMerge(prevState, 1);
           let newUpdatedState = updateGameState(newState);
+          setScore(prevScore => prevScore + addScore);
           return newUpdatedState !== null ? newUpdatedState : prevState;
         });
         break;
       default:
     }
-  }, [pressedKey]);
+  }, [pressedKey, setScore]);
 
   const cells = gameState !== null &&
     Array(4).fill(0).map((_, i) =>
